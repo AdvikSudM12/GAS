@@ -174,7 +174,7 @@
         }
         
         /* Fallback for browsers without background-clip: text */
-        @supports not (background-clip: text) or not (-webkit-background-clip: text) {
+        @supports not (background-clip: text) {
             .gradient-text {
                 color: #d4af37;
                 background: none;
@@ -502,9 +502,175 @@
             top: 9px;
             transform: rotate(-135deg);
         }
+        
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 1;
+            transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
+        }
+        
+        .preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .preloader-content {
+            text-align: center;
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        .preloader-animation {
+            width: auto;
+            height: auto;
+            max-width: 90vw;
+            max-height: 70vh;
+            margin: 0 auto 30px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            position: relative;
+        }
+        
+        .preloader-gif {
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 20px;
+            display: block;
+        }
+        
+        .gif-fallback {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(244, 229, 140, 0.1));
+            border-radius: 20px;
+        }
+        
+        .fallback-icon {
+            font-size: 64px;
+            opacity: 0.8;
+        }
+        
+        .preloader-text {
+            margin-top: 20px;
+        }
+        
+        .loading-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 600;
+            background: linear-gradient(135deg, #d4af37, #f4e58c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+        
+        .loading-subtitle {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 300;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Пульсирующая анимация для рамки */
+        .preloader-animation::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #d4af37, #f4e58c, #d4af37);
+            border-radius: 22px;
+            z-index: -1;
+            opacity: 0.5;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        .preloader-progress {
+            width: 100%;
+            max-width: 300px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+        
+        .preloader-progress-bar {
+            width: 0;
+            height: 100%;
+            background: linear-gradient(135deg, #d4af37, #f4e58c);
+            border-radius: 2px;
+            transition: width 0.3s ease-out;
+        }
     </style>
 </head>
 <body class="text-white antialiased">
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-content">
+            <div class="preloader-animation">
+                <img src="../intro.gif" alt="Loading..." class="preloader-gif" id="preloaderGif" onerror="this.style.display='none'">
+                <div class="gif-fallback" id="gifFallback" style="display: none;">
+                    <div class="fallback-icon">🎬</div>
+                </div>
+            </div>
+            <div class="preloader-text">
+                <div class="loading-text">RELAX</div>
+                <div class="loading-subtitle">Загрузка<span class="loading-dots">...</span></div>
+            </div>
+            <div class="preloader-progress" id="preloaderProgress">
+                <div class="preloader-progress-bar" id="preloaderProgressBar"></div>
+            </div>
+        </div>
+    </div>
+
     <!-- Scroll Progress Indicator -->
     <div class="scroll-indicator" id="scrollProgress"></div>
     
@@ -564,8 +730,8 @@
                 
                 <!-- Centered Logo -->
                 <div class="logo-container flex items-center space-x-3 sm:space-x-6 lg:space-x-8 flex-1 justify-center">
-                    <div class="w-10 h-10 sm:w-16 sm:h-16 lg:w-20 lg:h-20 relative">
-                        <img src="Y4JEhMslzo55s4EA4Uk8o" alt="RELAX" class="w-full h-full object-contain filter brightness-125">
+                    <div class="w-10 h-10 sm:w-16 sm:h-16 lg:w-20 lg:h-20 relative overflow-hidden rounded-lg bg-transparent">
+                        <img src="../logo.png" alt="RELAX" class="w-full h-full object-contain mix-blend-screen filter brightness-110">
                     </div>
                     <div class="text-center">
                         <div class="text-lg sm:text-2xl lg:text-3xl xl:text-4xl font-display font-semibold gradient-text">RELAX</div>
@@ -585,15 +751,15 @@
             <h1 class="hero-title text-4xl sm:text-6xl lg:text-8xl font-display font-light mb-6 sm:mb-8 gradient-text leading-tight">
                 Премиальная<br class="hidden sm:block">Доставка Газа
             </h1>
-            <p class="text-lg sm:text-xl lg:text-2xl text-neutral-400 max-w-3xl mx-auto font-light leading-relaxed px-4">
+            <p class="text-lg sm:text-xl lg:text-2xl text-neutral-400 mb-8 sm:mb-12 max-w-3xl mx-auto font-light px-4">
                 Сертифицированная продукция высшего качества с экспресс-доставкой по Москве и области
             </p>
             
             <div class="mt-12 sm:mt-16 flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center px-4">
-                <button class="cta-button px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-neutral-800 to-neutral-900 border border-neutral-700 rounded-lg text-white font-medium hover:border-neutral-600 w-full sm:w-auto">
+                <button class="cta-button px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-neutral-800 to-neutral-900 border border-neutral-700 rounded-lg text-white font-medium w-full sm:w-auto">
                     Начать заказ
                 </button>
-                <button class="cta-button px-6 sm:px-8 py-3 sm:py-4 border border-neutral-600 rounded-lg text-neutral-300 font-medium hover:bg-neutral-800 w-full sm:w-auto">
+                <button class="cta-button px-6 sm:px-8 py-3 sm:py-4 border border-neutral-600 rounded-lg text-neutral-300 font-medium w-full sm:w-auto">
                     Подробнее
                 </button>
             </div>
@@ -859,7 +1025,7 @@
                     </div>
                 </div>
                 
-                <div class="mt-6 sm:mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 text-xs">
+                <div class="mt-6 sm:mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-xs">
                     <div>
                         <h4 class="font-medium text-neutral-300 mb-2">Популярные районы доставки:</h4>
                         <p>Центральный округ, Северный округ, Северо-Восточный округ, Восточный округ, Юго-Восточный округ, Южный округ, Юго-Западный округ, Западный округ, Северо-Западный округ, Зеленоградский округ, Новомосковский округ, Троицкий округ</p>
@@ -886,7 +1052,7 @@
                     <div class="text-neutral-500 text-xs sm:text-sm mt-2 tracking-wide">Премиальная служба доставки газа</div>
                 </div>
                 <div class="text-neutral-500 text-xs sm:text-sm">
-                    © 2025 Relax. Все права защищены.
+                    2025 Relax. Все права защищены.
                 </div>
             </div>
         </div>
@@ -980,11 +1146,38 @@
             }
         }
 
+        // Preloader
+        function hidePreloader() {
+            const preloader = document.getElementById('preloader');
+            preloader.classList.add('hidden');
+            
+            // Полностью удаляем preloader после анимации
+            setTimeout(() => {
+                preloader.remove();
+            }, 800);
+        }
+
+        // Показать preloader минимум 3 секунд для полного просмотра анимации
+        let preloaderStartTime = Date.now();
+        
+        function handlePreloader() {
+            const currentTime = Date.now();
+            const elapsedTime = currentTime - preloaderStartTime;
+            const minDisplayTime = 3000; // 3 секунд минимум
+            
+            if (elapsedTime >= minDisplayTime) {
+                hidePreloader();
+            } else {
+                setTimeout(hidePreloader, minDisplayTime - elapsedTime);
+            }
+        }
+        
         // Initialize floating elements
         setInterval(createFloatingElement, 3000);
 
         // Event listeners
         window.addEventListener('scroll', updateScrollProgress);
+        window.addEventListener('load', handlePreloader);
         
         document.addEventListener('DOMContentLoaded', function() {
             // Create initial floating elements
@@ -994,6 +1187,47 @@
             
             // Initialize scroll progress
             updateScrollProgress();
+        });
+        
+        // Preloader Progress Bar
+        const preloaderGif = document.getElementById('preloaderGif');
+        const preloaderProgressBar = document.getElementById('preloaderProgressBar');
+        const gifFallback = document.getElementById('gifFallback');
+        
+        // Сброс GIF анимации при каждой загрузке страницы
+        preloaderGif.src = preloaderGif.src + '?' + new Date().getTime();
+        
+        // Показать fallback если GIF не загружается
+        preloaderGif.addEventListener('error', function() {
+            console.log('GIF failed to load, showing fallback');
+            preloaderGif.style.display = 'none';
+            gifFallback.style.display = 'flex';
+        });
+        
+        // Анимировать прогресс-бар независимо от GIF
+        function animateProgressBar() {
+            let progress = 0;
+            const duration = 2000; // 2 секунды
+            const interval = 50; // обновление каждые 50мс
+            const increment = (100 * interval) / duration;
+            
+            const progressInterval = setInterval(() => {
+                progress += increment;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(progressInterval);
+                }
+                preloaderProgressBar.style.width = progress + '%';
+            }, interval);
+        }
+        
+        // Запускаем анимацию прогресс-бара сразу
+        animateProgressBar();
+        
+        preloaderGif.addEventListener('load', function() {
+            console.log('GIF loaded successfully');
+            gifFallback.style.display = 'none';
+            preloaderGif.style.display = 'block';
         });
     </script>
 </body>
