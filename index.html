@@ -249,6 +249,94 @@
             -moz-box-shadow: 0 15px 40px rgba(212, 175, 55, 0.2);
         }
         
+        /* Главная кнопка CTA - увеличенная и динамичная */
+        .hero-cta-button {
+            font-size: 1.25rem;
+            padding: 1.25rem 3rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 10px 40px rgba(212, 175, 55, 0.4), 0 0 20px rgba(212, 175, 55, 0.2);
+            animation: pulse-glow 2s ease-in-out infinite;
+            border: 2px solid rgba(212, 175, 55, 0.5);
+            background: linear-gradient(135deg, #d4af37 0%, #f4e58c 50%, #d4af37 100%);
+            background-size: 200% 200%;
+            animation: pulse-glow 2s ease-in-out infinite, gradient-shift 3s ease infinite;
+            position: relative;
+            overflow: visible;
+        }
+        
+        .hero-cta-button::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #d4af37, #f4e58c, #d4af37, #f4e58c);
+            border-radius: 0.75rem;
+            z-index: -1;
+            opacity: 0;
+            filter: blur(10px);
+            animation: glow-pulse 2s ease-in-out infinite;
+        }
+        
+        .hero-cta-button::after {
+            content: '→';
+            margin-left: 0.75rem;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+        
+        .hero-cta-button:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 20px 60px rgba(212, 175, 55, 0.6), 0 0 40px rgba(212, 175, 55, 0.4);
+        }
+        
+        .hero-cta-button:hover::after {
+            transform: translateX(5px);
+        }
+        
+        .hero-cta-button:active {
+            transform: translateY(-2px) scale(1.02);
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 10px 40px rgba(212, 175, 55, 0.4), 0 0 20px rgba(212, 175, 55, 0.2);
+            }
+            50% {
+                box-shadow: 0 15px 50px rgba(212, 175, 55, 0.6), 0 0 30px rgba(212, 175, 55, 0.4);
+            }
+        }
+        
+        @keyframes glow-pulse {
+            0%, 100% {
+                opacity: 0.5;
+            }
+            50% {
+                opacity: 0.8;
+            }
+        }
+        
+        @keyframes gradient-shift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .hero-cta-button {
+                font-size: 1.1rem;
+                padding: 1rem 2rem;
+            }
+        }
+        
         .arrow-icon {
             transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
@@ -715,39 +803,14 @@
         </div>
     </div>
 
-    <!-- Header -->
-    <header class="glass-morphism transition-all duration-500 rounded-2xl lg:rounded-3xl mb-8">
-        <div class="w-full px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center h-20 sm:h-24 lg:h-28 relative">
-                <!-- Menu Button - Left Side -->
-                <button onclick="toggleMobileMenu()" class="hamburger w-12 sm:w-14 lg:w-16 flex justify-center" id="hamburgerButton">
-                    <div class="hamburger-inner">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
-                </button>
-                
-                <!-- Centered Logo -->
-                <div class="logo-container flex items-center space-x-3 sm:space-x-6 lg:space-x-8 flex-1 justify-center">
-                    <div class="w-10 h-10 sm:w-16 sm:h-16 lg:w-20 lg:h-20 relative overflow-hidden rounded-lg bg-transparent">
-                        <img src="./logo.png" alt="RELAX" class="w-full h-full object-contain mix-blend-screen filter brightness-110">
-                    </div>
-                    <div class="text-center">
-                        <div class="text-lg sm:text-2xl lg:text-3xl xl:text-4xl font-display font-semibold gradient-text">RELAX</div>
-                        <div class="text-xs sm:text-sm lg:text-base text-neutral-400 font-light tracking-wider uppercase">Премиальная доставка газа</div>
-                    </div>
-                </div>
-
-                <!-- Empty space for balance -->
-                <div class="w-12 sm:w-14 lg:w-16"></div>
-            </div>
-        </div>
-    </header>
-
     <!-- Hero Section -->
     <section class="min-h-screen flex items-center justify-center relative overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">            
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <!-- Logo -->
+            <div class="mb-12 sm:mb-16 lg:mb-20 flex justify-center">
+                <img src="../logo.png" alt="RELAX" class="w-48 h-48 sm:w-56 sm:h-56 lg:w-64 lg:h-64 object-contain mix-blend-screen filter brightness-110">
+            </div>
+            
             <h1 class="hero-title text-4xl sm:text-6xl lg:text-8xl font-display font-light mb-6 sm:mb-8 gradient-text leading-tight">
                 Премиальная<br class="hidden sm:block">Доставка Газа
             </h1>
@@ -755,13 +818,10 @@
                 Сертифицированная продукция высшего качества с экспресс-доставкой по Москве и области
             </p>
             
-            <div class="mt-12 sm:mt-16 flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center px-4">
-                <button class="cta-button px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-neutral-800 to-neutral-900 border border-neutral-700 rounded-lg text-white font-medium w-full sm:w-auto">
+            <div class="mt-12 sm:mt-16 flex justify-center px-4">
+                <a href="https://t.me/relaxgas" target="_blank" rel="noopener noreferrer" class="hero-cta-button cta-button rounded-xl text-white inline-block text-center no-underline transition-all duration-300">
                     Начать заказ
-                </button>
-                <button class="cta-button px-6 sm:px-8 py-3 sm:py-4 border border-neutral-600 rounded-lg text-neutral-300 font-medium w-full sm:w-auto">
-                    Подробнее
-                </button>
+                </a>
             </div>
         </div>
     </section>
@@ -772,193 +832,86 @@
         <!-- Services Grid -->
         <div class="grid gap-6 sm:gap-8 mb-16 sm:mb-32">
             
-            <!-- Wholesale Section -->
-            <div class="glass-morphism rounded-2xl sm:rounded-3xl p-4 sm:p-8">
-                <button 
-                    class="section-trigger w-full text-left p-4 sm:p-8 rounded-xl sm:rounded-2xl bg-gradient-to-r from-neutral-900/80 to-neutral-800/80 border border-neutral-700/50 hover:border-neutral-600/50"
-                    onclick="toggleSection('wholesale')"
-                >
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center space-x-3 sm:space-x-6">
-                            <div class="w-8 h-8 sm:w-12 sm:h-12 bg-gradient-to-br from-neutral-700 to-neutral-800 rounded-lg sm:rounded-xl flex items-center justify-center">
-                                <div class="w-4 h-4 sm:w-6 sm:h-6 bg-neutral-500 rounded-sm"></div>
-                            </div>
-                            <div>
-                                <h2 class="text-lg sm:text-2xl font-display font-medium text-white">Оптовые поставки</h2>
-                                <p class="text-neutral-400 text-xs sm:text-sm mt-1">Крупные заказы и коммерческие поставки</p>
-                            </div>
-                        </div>
-                        <svg class="arrow-icon w-5 h-5 sm:w-6 sm:h-6 text-neutral-400 flex-shrink-0" id="arrow-wholesale" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                        </svg>
-                    </div>
-                </button>
+
+        </div>
+
+
+    </main>
+
+    <!-- About Us Section -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 relative z-10">
+        <div class="glass-morphism rounded-2xl sm:rounded-3xl p-6 sm:p-12">
+            <h2 class="text-2xl sm:text-4xl font-display font-medium gradient-text mb-6 sm:mb-8 text-center">О нас</h2>
+            
+            <div class="space-y-4 sm:space-y-6 text-neutral-300 leading-relaxed">
+                <p class="text-base sm:text-lg">
+                    На рынке Москвы и Московской области мы заработали репутацию надежного партнера. Для нас важно не просто продать, а обеспечить полный цикл качества:
+                </p>
                 
-                <div class="content-reveal" id="content-wholesale">
-                    <div class="bg-neutral-900/50 border border-neutral-800/50 rounded-xl sm:rounded-2xl p-4 sm:p-8 space-y-4 sm:space-y-6 text-neutral-300">
-                        <p class="text-lg leading-relaxed">
-                            Профессиональные оптовые решения для коммерческих предприятий, развлекательных заведений и партнеров по дистрибуции. 
-                            Прямые отношения с производителями обеспечивают конкурентоспособные цены и стабильные цепочки поставок.
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mt-6">
+                    <div class="bg-neutral-900/50 border border-neutral-800/50 rounded-xl p-4 sm:p-6">
+                        <h3 class="font-semibold text-white mb-3 flex items-start">
+                            <span class="text-gradient-to-r from-neutral-400 to-neutral-500 mr-2">•</span>
+                            Сертифицированная продукция
+                        </h3>
+                        <p class="text-sm text-neutral-400">
+                            Весь ассортимент соответствует строгим стандартам и имеет необходимые документы.
                         </p>
-                        <p class="leading-relaxed">
-                            Наша оптовая программа включает персональное управление аккаунтом, гибкие условия оплаты 
-                            и приоритетное планирование доставки. Минимальные объемы заказов начинаются с промышленных требований 
-                            с многоуровневым ценообразованием по объемам.
+                    </div>
+                    
+                    <div class="bg-neutral-900/50 border border-neutral-800/50 rounded-xl p-4 sm:p-6">
+                        <h3 class="font-semibold text-white mb-3 flex items-start">
+                            <span class="text-gradient-to-r from-neutral-400 to-neutral-500 mr-2">•</span>
+                            Надежность и безопасность
+                        </h3>
+                        <p class="text-sm text-neutral-400">
+                            Герметичная упаковка и строгий контроль на всех этапах – наш приоритет.
                         </p>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mt-6 sm:mt-8">
-                            <div class="bg-neutral-800/50 border border-neutral-700/50 rounded-lg sm:rounded-xl p-4 sm:p-6">
-                                <h4 class="font-semibold text-white mb-3 text-sm sm:text-base">Коммерческие решения</h4>
-                                <ul class="space-y-2 text-xs sm:text-sm text-neutral-400">
-                                    <li>• Прямые поставки от производителя</li>
-                                    <li>• Объемное ценообразование</li>
-                                    <li>• Персональное управление аккаунтом</li>
-                                    <li>• Приоритетная логистическая поддержка</li>
-                                </ul>
-                            </div>
-                            <div class="bg-neutral-800/50 border border-neutral-700/50 rounded-lg sm:rounded-xl p-4 sm:p-6">
-                                <h4 class="font-semibold text-white mb-3 text-sm sm:text-base">Преимущества партнерства</h4>
-                                <ul class="space-y-2 text-xs sm:text-sm text-neutral-400">
-                                    <li>• Гибкие условия оплаты</li>
-                                    <li>• Программы контроля качества</li>
-                                    <li>• Техническое консультирование</li>
-                                    <li>• Документооборот соответствия</li>
-                                </ul>
-                            </div>
-                        </div>
+                    </div>
+                    
+                    <div class="bg-neutral-900/50 border border-neutral-800/50 rounded-xl p-4 sm:p-6">
+                        <h3 class="font-semibold text-white mb-3 flex items-start">
+                            <span class="text-gradient-to-r from-neutral-400 to-neutral-500 mr-2">•</span>
+                            Оперативная логистика
+                        </h3>
+                        <p class="text-sm text-neutral-400">
+                            Мы понимаем, что время бывает критичным. Поэтому организовали курьерскую доставку «в день заказа» по Москве и ближнему Подмосковью.
+                        </p>
+                    </div>
+                    
+                    <div class="bg-neutral-900/50 border border-neutral-800/50 rounded-xl p-4 sm:p-6">
+                        <h3 class="font-semibold text-white mb-3 flex items-start">
+                            <span class="text-gradient-to-r from-neutral-400 to-neutral-500 mr-2">•</span>
+                            Профессиональный подход
+                        </h3>
+                        <p class="text-sm text-neutral-400">
+                            Мы консультируем клиентов по вопросам применения и хранения.
+                        </p>
                     </div>
                 </div>
-            </div>
-
-            <!-- Products Section -->
-            <div class="glass-morphism rounded-2xl sm:rounded-3xl p-4 sm:p-8">
-                <button 
-                    class="section-trigger w-full text-left p-4 sm:p-8 rounded-xl sm:rounded-2xl bg-gradient-to-r from-neutral-900/80 to-neutral-800/80 border border-neutral-700/50 hover:border-neutral-600/50"
-                    onclick="toggleSection('products')"
-                >
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center space-x-3 sm:space-x-6">
-                            <div class="w-8 h-8 sm:w-12 sm:h-12 bg-gradient-to-br from-neutral-700 to-neutral-800 rounded-lg sm:rounded-xl flex items-center justify-center">
-                                <div class="w-4 h-4 sm:w-6 sm:h-6 border-2 border-neutral-500 rounded-full"></div>
-                            </div>
-                            <div>
-                                <h2 class="text-lg sm:text-2xl font-display font-medium text-white">Продуктовая линейка</h2>
-                                <p class="text-neutral-400 text-xs sm:text-sm mt-1">Сертифицированные газовые решения и аксессуары</p>
-                            </div>
-                        </div>
-                        <svg class="arrow-icon w-5 h-5 sm:w-6 sm:h-6 text-neutral-400 flex-shrink-0" id="arrow-products" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                        </svg>
-                    </div>
-                </button>
                 
-                <div class="content-reveal" id="content-products">
-                    <div class="bg-neutral-900/50 border border-neutral-800/50 rounded-xl sm:rounded-2xl p-4 sm:p-8 space-y-4 sm:space-y-6 text-neutral-300">
-                        <p class="text-lg leading-relaxed">
-                            Полная продуктовая экосистема, включающая закись азота медицинского класса, системы точной подачи 
-                            и профессиональные аксессуары. Вся продукция соответствует международным стандартам безопасности 
-                            и требованиям регулятивного соответствия.
-                        </p>
-                        
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mt-6 sm:mt-8" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">${gridContent}</div>
-                            <div class="text-center p-4 sm:p-6 bg-neutral-800/30 border border-neutral-700/30 rounded-lg sm:rounded-xl">
-                                <div class="w-6 h-6 sm:w-8 sm:h-8 mx-auto mb-3 sm:mb-4 bg-neutral-600 rounded-lg"></div>
-                                <h4 class="font-semibold text-white mb-2 text-sm sm:text-base">Газовые продукты</h4>
-                                <p class="text-xs sm:text-sm text-neutral-400">Сертифицированные решения медицинского класса</p>
-                            </div>
-                            <div class="text-center p-4 sm:p-6 bg-neutral-800/30 border border-neutral-700/30 rounded-lg sm:rounded-xl">
-                                <div class="w-6 h-6 sm:w-8 sm:h-8 mx-auto mb-3 sm:mb-4 bg-neutral-600 rounded-lg"></div>
-                                <h4 class="font-semibold text-white mb-2 text-sm sm:text-base">Системы доставки</h4>
-                                <p class="text-xs sm:text-sm text-neutral-400">Профессиональное оборудование и аксессуары</p>
-                            </div>
-                            <div class="text-center p-4 sm:p-6 bg-neutral-800/30 border border-neutral-700/30 rounded-lg sm:rounded-xl col-span-1 sm:col-span-2 lg:col-span-1">
-                                <div class="w-6 h-6 sm:w-8 sm:h-8 mx-auto mb-3 sm:mb-4 bg-neutral-600 rounded-lg"></div>
-                                <h4 class="font-semibold text-white mb-2 text-sm sm:text-base">Сервисная поддержка</h4>
-                                <p class="text-xs sm:text-sm text-neutral-400">Техническое консультирование и обслуживание</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Logistics Section -->
-            <div class="glass-morphism rounded-2xl sm:rounded-3xl p-4 sm:p-8">
-                <button 
-                    class="section-trigger w-full text-left p-4 sm:p-8 rounded-xl sm:rounded-2xl bg-gradient-to-r from-neutral-900/80 to-neutral-800/80 border border-neutral-700/50 hover:border-neutral-600/50"
-                    onclick="toggleSection('logistics')"
-                >
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center space-x-3 sm:space-x-6">
-                            <div class="w-8 h-8 sm:w-12 sm:h-12 bg-gradient-to-br from-neutral-700 to-neutral-800 rounded-lg sm:rounded-xl flex items-center justify-center">
-                                <div class="w-4 h-4 sm:w-6 sm:h-6 bg-gradient-to-r from-neutral-500 to-neutral-600 rounded"></div>
-                            </div>
-                            <div>
-                                <h2 class="text-lg sm:text-2xl font-display font-medium text-white">Логистика и доставка</h2>
-                                <p class="text-neutral-400 text-xs sm:text-sm mt-1">Экспресс-доставка и сервисные гарантии</p>
-                            </div>
-                        </div>
-                        <svg class="arrow-icon w-5 h-5 sm:w-6 sm:h-6 text-neutral-400 flex-shrink-0" id="arrow-logistics" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                        </svg>
-                    </div>
-                </button>
-                
-                <div class="content-reveal" id="content-logistics">
-                    <div class="bg-neutral-900/50 border border-neutral-800/50 rounded-xl sm:rounded-2xl p-4 sm:p-8 space-y-4 sm:space-y-6 text-neutral-300">
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-                            <div class="text-center p-4 sm:p-6">
-                                <div class="text-2xl sm:text-3xl font-display gradient-text mb-2">30min</div>
-                                <h4 class="font-semibold text-white mb-2 text-sm sm:text-base">Экспресс-доставка</h4>
-                                <p class="text-xs sm:text-sm text-neutral-400">Покрытие столичного региона с отслеживанием в реальном времени</p>
-                            </div>
-                            <div class="text-center p-4 sm:p-6">
-                                <div class="text-2xl sm:text-3xl font-display gradient-text mb-2">24/7</div>
-                                <h4 class="font-semibold text-white mb-2 text-sm sm:text-base">Доступность</h4>
-                                <p class="text-xs sm:text-sm text-neutral-400">Круглосуточная работа и клиентская поддержка</p>
-                            </div>
-                            <div class="text-center p-4 sm:p-6 col-span-1 sm:col-span-2 lg:col-span-1">
-                                <div class="text-2xl sm:text-3xl font-display gradient-text mb-2">100%</div>
-                                <h4 class="font-semibold text-white mb-2 text-sm sm:text-base">Гарантия качества</h4>
-                                <p class="text-xs sm:text-sm text-neutral-400">Сертифицированная продукция с гарантированными стандартами чистоты</p>
-                            </div>
-                        </div>
-                    </div>
+                <div class="bg-neutral-800/30 border border-neutral-700/50 rounded-xl p-4 sm:p-6 mt-6 sm:mt-8">
+                    <p class="text-xs sm:text-sm text-neutral-400 leading-relaxed">
+                        <strong class="text-neutral-300">Важно:</strong> Вся представленная на сайте продукция предназначена для профессионального использования в пищевой промышленности (в качестве пропеллента) и иных разрешенных законодательством РФ сферах. Не допускается использование в медицинских целях без соответствующей лицензии. Ответственность за применение продукта не по назначению лежит на покупателе. Ознакомьтесь с правилами безопасности перед использованием. Продажа осуществляется совершеннолетним лицам.
+                    </p>
                 </div>
             </div>
         </div>
+    </section>
 
-        <!-- CTA Section -->
-        <section class="glass-morphism rounded-2xl sm:rounded-3xl p-8 sm:p-16 text-center">
-            <h3 class="text-3xl sm:text-5xl font-display font-light mb-6 sm:mb-8 gradient-text">
-                Готовы к партнерству?
-            </h3>
-            <p class="text-lg sm:text-xl text-neutral-400 mb-8 sm:mb-12 max-w-2xl mx-auto font-light px-4">
-                Свяжитесь с нашей командой для персонализированных коммерческих решений и ценовых предложений
-            </p>
-            
-            <div class="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center">
-                <button class="cta-button px-8 sm:px-12 py-3 sm:py-4 bg-gradient-to-r from-neutral-800 to-neutral-900 border border-neutral-700 rounded-lg text-white font-medium w-full sm:w-auto">
-                    Запросить консультацию
-                </button>
-                <button class="cta-button px-8 sm:px-12 py-3 sm:py-4 border border-neutral-600 rounded-lg text-neutral-300 font-medium w-full sm:w-auto">
-                    Скачать каталог
-                </button>
-            </div>
-        </section>
-    </main>
+    <!-- Delivery Zones Button -->
+    <div class="text-center mt-12 sm:mt-16 mb-8 sm:mb-12">
+        <button 
+            onclick="toggleSeoContent()" 
+            class="cta-button px-4 sm:px-6 py-2 sm:py-3 border border-neutral-600 rounded-lg text-neutral-300 text-xs sm:text-sm font-medium hover:bg-neutral-800 transition-colors w-full sm:w-auto"
+            id="seoToggleBtn"
+        >
+            Показать зоны доставки
+        </button>
+    </div>
 
     <!-- SEO Content Section - Hidden by default -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 text-neutral-400 text-sm" id="seoSection">
-        <div class="text-center mb-6">
-            <button 
-                onclick="toggleSeoContent()" 
-                class="cta-button px-4 sm:px-6 py-2 sm:py-3 border border-neutral-600 rounded-lg text-neutral-300 text-xs sm:text-sm font-medium hover:bg-neutral-800 transition-colors w-full sm:w-auto"
-                id="seoToggleBtn"
-            >
-                Показать зоны доставки
-            </button>
-        </div>
-        
         <div class="content-reveal" id="seoContent">
             <div class="glass-morphism rounded-xl sm:rounded-2xl p-4 sm:p-8">
                 <h3 class="text-base sm:text-lg font-semibold text-white mb-4 gradient-text">Доставка газа по станциям метро Москвы</h3>
@@ -1058,14 +1011,19 @@
         </div>
     </footer>
 
-    <!-- Contact Button -->
-    <div class="fixed bottom-4 sm:bottom-8 right-4 sm:right-8 z-50">
-        <a href="https://t.me/Dandee64" target="_blank" rel="noopener noreferrer" class="cta-button w-12 h-12 sm:w-14 sm:h-14 bg-neutral-800 border border-neutral-700 rounded-full flex items-center justify-center text-white hover:bg-neutral-700 shadow-2xl">
-            <svg width="16" height="16" class="sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.568 8.16l-1.61 7.59c-.12.54-.44.67-.89.42l-2.46-1.82-1.19 1.14c-.13.13-.24.24-.5.24l.18-2.51 4.56-4.12c.2-.18-.04-.28-.3-.1L9.69 13.17 7.29 12.4c-.53-.16-.54-.53.11-.79l10.27-3.95c.44-.16.83.1.68.79z"/>
-            </svg>
-        </a>
-    </div>
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+        (function(m,e,t,r,i,k,a){
+            m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+            m[i].l=1*new Date();
+            for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+            k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+        })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+        ym(1719445, 'init', {accurateTrackBounce:true, trackLinks:true});
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/1719445" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
 
     <script>
         // Section Toggle Functionality
@@ -1230,5 +1188,35 @@
             preloaderGif.style.display = 'block';
         });
     </script>
+
+    <!-- SEO Content (hidden from users, visible for search engines) -->
+    <div style="position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden;" aria-hidden="true">
+        <h2>Закись азота (веселящий газ): купить с удобной доставкой и обменом баллонов</h2>
+        
+        <p>
+            Ищете, где закись азота купить для легального и ответственного использования? Наша компания предлагает высококачественную закись азота (также известную как веселящий газ) с быстрой и надежной доставкой закись азота по городу. Мы понимаем, что важно не только приобрести продукт, но и получить качественный сервис, поэтому организовали для вас удобные условия.
+        </p>
+        
+        <p>
+            Купить веселящий газ у нас – это значит выбрать надежность и удобство. Мы осуществляем оперативную доставка веселящий газ в удобное для вас время. Наш сервис идеально подходит для организаций и частных лиц, которые ценят оперативность и качество.
+        </p>
+        
+        <p>
+            Что делать с пустой тарой? Мы решили и эту задачу! Наша услуга обмен баллона закись азота позволяет вам быстро и выгодно вернуть использованный баллон и получить полный. Аналогично, для клиентов, использующих веселящий газ, доступен обмен баллона веселящий газ. Это экономит ваше время и деньги, избавляя от необходимости самостоятельной утилизации.
+        </p>
+        
+        <h3>Почему выбирают нас?</h3>
+        
+        <ul>
+            <li>Высокое качество продукта: Мы гарантируем чистоту и соответствие закиси азота всем стандартам.</li>
+            <li>Оперативная доставка: Доставка закись азота и доставка веселящий газ осуществляется в кратчайшие сроки.</li>
+            <li>Удобный обмен: Услуги обмен баллона закись азота и обмен баллона веселящий газ делают сотрудничество с нами комфортным и выгодным.</li>
+            <li>Доступные цены: Мы предлагаем конкурентные условия, чтобы купить веселящий газ и закись азота купить было выгодно каждому клиенту.</li>
+        </ul>
+        
+        <p>
+            Закись азота купить, веселящий газ купить, доставка закись азота, доставка веселящий газ, обмен баллона закись азота, обмен баллона веселящий газ - все эти услуги доступны у нас по выгодным ценам с гарантией качества и оперативной доставкой по Москве и Московской области.
+        </p>
+    </div>
 </body>
 </html>
